@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.view.add.AddFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSearchResult2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="59dp"
+        android:elevation="6dp"
+        android:visibility="visible"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout11">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/name_item" />
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="7dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.021">
+
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svCityName2"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/et_bg_rounded"
+            android:focusable="true"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/textcolor"
+            app:backgroundTint="#00FFFFFF"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@color/transparent"
+            app:queryHint="Search city">
+
+        </androidx.appcompat.widget.SearchView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            app:boxCornerRadiusBottomEnd="27dp"
+            app:boxCornerRadiusBottomStart="27dp"
+            app:boxCornerRadiusTopEnd="27dp"
+            app:boxCornerRadiusTopStart="27dp"
+            app:boxStrokeColor="@color/textcolor"
+            app:boxStrokeWidth="1dp"
+            app:startIconDrawable="@drawable/outline_location_on_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Latitude"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/textcolor"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            app:boxCornerRadiusBottomEnd="27dp"
+            app:boxCornerRadiusBottomStart="27dp"
+            app:boxCornerRadiusTopEnd="27dp"
+            app:boxCornerRadiusTopStart="27dp"
+            app:boxStrokeColor="@color/textcolor"
+            app:boxStrokeWidth="1dp"
+            app:startIconDrawable="@drawable/outline_location_on_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Longitude"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/textcolor"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            app:boxCornerRadiusBottomEnd="27dp"
+            app:boxCornerRadiusBottomStart="27dp"
+            app:boxCornerRadiusTopEnd="27dp"
+            app:boxCornerRadiusTopStart="27dp"
+            app:boxStrokeColor="@color/textcolor"
+            app:boxStrokeWidth="1dp"
+            app:startIconDrawable="@drawable/baseline_location_city_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="City"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/textcolor"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            app:boxCornerRadiusBottomEnd="27dp"
+            app:boxCornerRadiusBottomStart="27dp"
+            app:boxCornerRadiusTopEnd="27dp"
+            app:boxCornerRadiusTopStart="27dp"
+            app:boxStrokeColor="@color/textcolor"
+            app:boxStrokeWidth="1dp"
+            app:startIconDrawable="@drawable/baseline_location_city_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Country"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/textcolor"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/ibBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/baseline_save_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Create"
+        android:textColor="@color/textcolor"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ibBack"
+        app:layout_constraintStart_toEndOf="@+id/ibBack"
+        app:layout_constraintTop_toTopOf="@+id/ibBack" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

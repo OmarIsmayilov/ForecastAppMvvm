@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ForecastApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="temp">%1$.0f°</string>
+    <string name="humi">%1$.0f%%</string>
+    <string name="wind">%1$.0fkm/h</string>
+    <string name="now">Now</string>
+    <string name="today">Today</string>
+    <string name="pressure">%1$.0f hPa</string>
+    <string name="country">%s , %s</string>
+</resources>
