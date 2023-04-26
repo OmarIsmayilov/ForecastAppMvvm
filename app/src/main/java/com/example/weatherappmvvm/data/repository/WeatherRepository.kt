@@ -17,7 +17,7 @@ class WeatherRepository {
     var _currentWeatherData = MutableLiveData<CurrentWeatherResponse>()
     var _forecastWeatherData = MutableLiveData<ForecastWeatherResponse>()
     var _searchData = MutableLiveData<SearchResponse>()
-    var _searchDataDetail = MutableLiveData<SearchResponseItem>()
+    var _searchDataDetail = MutableLiveData<CurrentWeatherResponse>()
     var _isLoading = MutableLiveData<Boolean>()
     val apiService = ApiUtils.getApi()
     var job: Job? = null
@@ -68,11 +68,11 @@ class WeatherRepository {
 
     suspend fun getSearchDetail(query: String){
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = apiService.getSearchResult(query)
+            val response = apiService.getCurrentWeather(query)
             withContext(Dispatchers.Main){
                 if (response.isSuccessful){
                     response.body().let {
-                        _searchDataDetail.value = it?.get(0)
+                        _searchDataDetail.value = it
                     }
                 }
             }

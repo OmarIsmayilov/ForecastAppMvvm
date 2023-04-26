@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="textcolor">#FF000000</color>
     <color name="background">#9EE6E3E3</color>
-    <color name="hint">#C5C5C5</color>
+    <color name="hint">#A3C5C5C5</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="statusColor">#26A7D1</color>
     <color name="statusColorGray">#D596AAB6</color>

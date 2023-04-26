@@ -2,22 +2,20 @@ package com.example.weatherappmvvm.ui.view.add
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatDelegate
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherappmvvm.R
-import com.example.weatherappmvvm.data.model.SearchResponse
+import com.example.weatherappmvvm.data.model.City
+import com.example.weatherappmvvm.data.model.CurrentWeatherResponse
 import com.example.weatherappmvvm.databinding.FragmentAddBinding
-import com.example.weatherappmvvm.databinding.FragmentCityBinding
 import com.example.weatherappmvvm.ui.adapter.CityNameAdapter
-import com.example.weatherappmvvm.ui.view.home.HomeViewModel
 import com.example.weatherappmvvm.utils.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -26,8 +24,9 @@ class AddFragment : BottomSheetDialogFragment(), OnItemClickListener {
 
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding as FragmentAddBinding
-    private val viewModel: AddViewModel by viewModels()
+    private lateinit var viewModel: AddViewModel
     private val nAdapter = CityNameAdapter(this)
+    private lateinit var weatherData: CurrentWeatherResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +39,6 @@ class AddFragment : BottomSheetDialogFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setup()
         observeEvents()
     }
@@ -58,27 +56,29 @@ class AddFragment : BottomSheetDialogFragment(), OnItemClickListener {
             }
         })
         viewModel.searchDataDetail.observe(viewLifecycleOwner, Observer {
-            with(binding){
-                if(it!=null){
-                    etLat.setText(it.lat.toString())
-                    etLon.setText(it.lon.toString())
-                    etCountry.setText(it.country)
-                    etCity.setText(it.name)
-                    svCityName2.setQuery("${it.name}, ${it.country}",false)
+            with(binding) {
+                if (it != null) {
+                    etLat.setText(it.location.lat.toString())
+                    etLon.setText(it.location.lon.toString())
+                    etCountry.setText(it.location.country)
+                    etCity.setText(it.location.name)
+                    svCityName2.setQuery("${it.location.name}, ${it.location.country}", false)
+                    weatherData = it
                 }
             }
         })
     }
 
 
-
     private fun setup() {
         with(binding) {
+            viewModel = ViewModelProvider(this@AddFragment)[AddViewModel::class.java]
             svCityName2.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     viewModel.search(query!!)
                     //Close soft keyboard
-                    val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val inputMethodManager =
+                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     if (inputMethodManager.isAcceptingText) {
                         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
                     }
@@ -91,9 +91,30 @@ class AddFragment : BottomSheetDialogFragment(), OnItemClickListener {
             })
 
             ibCreate.setOnClickListener {
-
+                addToDb()
             }
         }
+    }
+
+    private fun addToDb() {
+        val name = binding.etCity.text.toString()
+        val country = binding.etCountry.text.toString()
+        weatherData.let {
+            val city = City(
+                0,
+                weatherData.location.name,
+                weatherData.current.condition.icon,
+                weatherData.location.country,
+                weatherData.current.tempC.toInt().toString()
+            )
+            if (name.isNotEmpty() && country.isNotEmpty()) {
+                city.let { viewModel.addCity(city) }
+                dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Choose city and country", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
 
@@ -104,7 +125,7 @@ class AddFragment : BottomSheetDialogFragment(), OnItemClickListener {
     override fun onItemClick(name: String) {
         with(binding) {
             viewModel.getSearchDetail(name)
-            cvSearchResult2.visibility=View.INVISIBLE
+            cvSearchResult2.visibility = View.INVISIBLE
         }
     }
 
