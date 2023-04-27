@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -33,17 +32,17 @@ import java.time.ZoneId
 import java.util.Calendar
 import java.util.Locale
 
-class HomeFragment : Fragment(),OnItemClickListener {
+class HomeFragment : Fragment(), OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding as FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private var query: String? = null
-    private val hAdapter = HourlyForecastAdapter()
-    private val dAdapter = DailyForecastAdapter()
-    private val nAdapter = CityNameAdapter(this)
-    private lateinit var GET: SharedPreferences
-    private lateinit var SET: SharedPreferences.Editor
+    private val hourlyWeatherAdapter = HourlyForecastAdapter()
+    private val dailyWeatherAdapter = DailyForecastAdapter()
+    private val cityNameAdapter = CityNameAdapter(this)
+    private lateinit var sharedPref: SharedPreferences
+    private lateinit var sharedPrefEditor: SharedPreferences.Editor
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +60,17 @@ class HomeFragment : Fragment(),OnItemClickListener {
 
     private fun setup() {
         with(binding) {
-            GET = requireContext().getSharedPreferences("query", Context.MODE_PRIVATE)
-            SET = GET.edit()
-            query = GET.getString("query", null)
-            query?.let { refresh(it) }
-            val theme = GET.getBoolean("isDay", true)
+            sharedPref = requireContext().getSharedPreferences("query", Context.MODE_PRIVATE)
+            sharedPrefEditor = sharedPref.edit()
+            query = sharedPref.getString("query", null)
+            if (query==null){
+                lyMain.visibility = View.INVISIBLE
+                lyShimmer.visibility = View.VISIBLE
+            }else{
+                refresh(query!!)
+            }
+
+            val theme = sharedPref.getBoolean("isDay", true)
 
             lySwipe.setBackgroundResource(
                 if (theme) {
@@ -132,8 +137,8 @@ class HomeFragment : Fragment(),OnItemClickListener {
             viewModel.searchData.observe(viewLifecycleOwner, Observer {
                 if (!it.isNullOrEmpty()) {
                     cvSearchResult.visibility = View.VISIBLE
-                    rvName.adapter = nAdapter
-                    nAdapter.updateList(it)
+                    rvName.adapter = cityNameAdapter
+                    cityNameAdapter.updateList(it)
                 } else {
                     cvSearchResult.visibility = View.INVISIBLE
                 }
@@ -142,18 +147,19 @@ class HomeFragment : Fragment(),OnItemClickListener {
 
     }
 
+
     private fun setAdapter(it: ForecastWeatherResponse) {
-        binding.rvHourly.adapter = hAdapter
-        binding.rvDaily.adapter = dAdapter
+        binding.rvHourly.adapter = hourlyWeatherAdapter
+        binding.rvDaily.adapter = dailyWeatherAdapter
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        hAdapter.updateList(it.forecast.forecastday.get(0).hour.filter {
+        hourlyWeatherAdapter.updateList(it.forecast.forecastday.get(0).hour.filter {
             val hourEpoch = it.timeEpoch.toLong()
             val hourDateTime =
                 LocalDateTime.ofInstant(Instant.ofEpochSecond(hourEpoch), ZoneId.systemDefault())
             val hour = hourDateTime.hour
             hour >= currentHour && hourDateTime.toLocalDate() == LocalDate.now()
         })
-        dAdapter.updateList(it.forecast.forecastday)
+        dailyWeatherAdapter.updateList(it.forecast.forecastday)
     }
 
     private fun setData(it: CurrentWeatherResponse?) {
@@ -161,6 +167,7 @@ class HomeFragment : Fragment(),OnItemClickListener {
             if (it != null) {
                 cWeather = it
                 fragment = this@HomeFragment
+                svCityName.setQuery("${it.location.name}, ${it.location.country}", false)
                 Glide.with(requireActivity()).load("https:${it.current.condition.icon}")
                     .into(ivWeather)
             }
@@ -177,13 +184,13 @@ class HomeFragment : Fragment(),OnItemClickListener {
             binding.lySwipe.setBackgroundResource(R.drawable.main_bg_night)
             requireActivity().window.statusBarColor =
                 ContextCompat.getColor(requireContext(), R.color.statusColor)
-            SET.putBoolean("isDay", false).apply()
+            sharedPrefEditor.putBoolean("isDay", false).apply()
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             binding.lySwipe.setBackgroundResource(R.drawable.main_bg_day)
             requireActivity().window.statusBarColor =
                 ContextCompat.getColor(requireContext(), R.color.statusColor)
-            SET.putBoolean("isDay", true).apply()
+            sharedPrefEditor.putBoolean("isDay", true).apply()
         }
     }
 
@@ -195,10 +202,10 @@ class HomeFragment : Fragment(),OnItemClickListener {
     }
 
     override fun onItemClick(name: String) {
-        viewModel.refresh(name)
         binding.cvSearchResult.visibility = View.INVISIBLE
-        binding.svCityName.setQuery(name,false)
-        SET.putString("query",name).apply()
+        binding.svCityName.setQuery(name, false)
+        viewModel.refresh(name)
+        sharedPrefEditor.putString("query", name).apply()
     }
 
     override fun onDestroyView() {

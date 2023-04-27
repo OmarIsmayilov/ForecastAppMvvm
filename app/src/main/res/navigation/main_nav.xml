@@ -26,7 +26,11 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_cityFragment_to_addFragment"
-            app:destination="@id/addFragment" />
+            app:destination="@id/addFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_cityFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <dialog
         android:id="@+id/addFragment"
@@ -39,4 +43,16 @@
             app:popUpTo="@id/addFragment"
             app:popUpToInclusive="true" />
     </dialog>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.weatherappmvvm.ui.view.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="city"
+            app:argType="com.example.weatherappmvvm.data.model.City" />
+        <action
+            android:id="@+id/action_detailFragment_to_cityFragment"
+            app:destination="@id/cityFragment" />
+    </fragment>
 </navigation>

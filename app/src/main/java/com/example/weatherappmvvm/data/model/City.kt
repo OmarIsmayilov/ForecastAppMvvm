@@ -1,9 +1,12 @@
 package com.example.weatherappmvvm.data.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity("cities")
 data class City(
     @PrimaryKey(autoGenerate = true)
@@ -12,4 +15,4 @@ data class City(
     @ColumnInfo("city_icon") val icon: String,
     @ColumnInfo("city_country") val country: String,
     @ColumnInfo("city_temp") val temp: String,
-)
+) : Parcelable
