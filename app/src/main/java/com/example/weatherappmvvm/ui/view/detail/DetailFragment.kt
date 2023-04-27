@@ -29,8 +29,8 @@ import java.util.Locale
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding as FragmentDetailBinding
-    private val viewModel : DetailViewModel by viewModels()
-    private val args : DetailFragmentArgs by navArgs()
+    private val viewModel: DetailViewModel by viewModels()
+    private val args: DetailFragmentArgs by navArgs()
     private val hourlyWeatherAdapter = HourlyForecastAdapter()
     private val dailyWeatherAdapter = DailyForecastAdapter()
 
@@ -38,7 +38,7 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentDetailBinding.inflate(inflater,container,false)
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,7 +46,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setup()
-         observeEvents()
+        observeEvents()
 
     }
 

@@ -63,15 +63,14 @@ class HomeFragment : Fragment(), OnItemClickListener {
             sharedPref = requireContext().getSharedPreferences("query", Context.MODE_PRIVATE)
             sharedPrefEditor = sharedPref.edit()
             query = sharedPref.getString("query", null)
-            if (query==null){
+            if (query == null) {
                 lyMain.visibility = View.INVISIBLE
                 lyShimmer.visibility = View.VISIBLE
-            }else{
+            } else {
                 refresh(query!!)
             }
 
             val theme = sharedPref.getBoolean("isDay", true)
-
             lySwipe.setBackgroundResource(
                 if (theme) {
                     R.drawable.main_bg_day
@@ -79,6 +78,10 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     R.drawable.main_bg_night
                 }
             )
+            requireActivity().window.statusBarColor =
+                ContextCompat.getColor(requireContext(), R.color.statusColor)
+
+
 
             ibAddFragment.setOnClickListener { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCityFragment()) }
 
