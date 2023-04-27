@@ -22,8 +22,11 @@ class WeatherRepository {
     val apiService = ApiUtils.getApi()
     var job: Job? = null
 
-    suspend fun getCurrentWeatherData(query: String) {
+    init {
         _isLoading.value = true
+    }
+    suspend fun getCurrentWeatherData(query: String) {
+
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getCurrentWeather(query)
             withContext(Dispatchers.Main){
@@ -38,7 +41,6 @@ class WeatherRepository {
     }
 
     suspend fun getForecastWeatherData(query: String) {
-        _isLoading.value = true
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getForecastWeather(query)
             withContext(Dispatchers.Main){

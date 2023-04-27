@@ -60,6 +60,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private fun setup() {
         with(binding) {
+            requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.statusColor)
             sharedPref = requireContext().getSharedPreferences("query", Context.MODE_PRIVATE)
             sharedPrefEditor = sharedPref.edit()
             query = sharedPref.getString("query", null)
@@ -78,8 +80,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     R.drawable.main_bg_night
                 }
             )
-            requireActivity().window.statusBarColor =
-                ContextCompat.getColor(requireContext(), R.color.statusColor)
+
 
 
 

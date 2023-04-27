@@ -129,6 +129,8 @@ class DetailFragment : Fragment() {
 
 
     private fun setup() {
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.statusColor)
         val city = args.city
         val name = "${city.name}, ${city.country}"
         viewModel.refresh(name)
