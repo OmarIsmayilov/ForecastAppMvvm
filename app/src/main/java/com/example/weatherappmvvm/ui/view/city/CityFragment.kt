@@ -70,7 +70,6 @@ class CityFragment : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     when(direction){
                         ItemTouchHelper.LEFT -> {
-                            Toast.makeText(requireContext(),"Slided",Toast.LENGTH_SHORT).show()
                             cList.let{viewModel.deleteCity(it[viewHolder.adapterPosition])}
                         }
                     }

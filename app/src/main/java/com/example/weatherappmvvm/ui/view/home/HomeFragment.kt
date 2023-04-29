@@ -61,7 +61,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private fun setup() {
         with(binding) {
             requireActivity().window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.statusColor)
+                ContextCompat.getColor(requireContext(), R.color.statusColor)
             sharedPref = requireContext().getSharedPreferences("query", Context.MODE_PRIVATE)
             sharedPrefEditor = sharedPref.edit()
             query = sharedPref.getString("query", null)
@@ -71,7 +71,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
             } else {
                 refresh(query!!)
             }
-
             val theme = sharedPref.getBoolean("isDay", true)
             lySwipe.setBackgroundResource(
                 if (theme) {
@@ -81,16 +80,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 }
             )
 
-
-
-
             ibAddFragment.setOnClickListener { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCityFragment()) }
-
             lySwipe.setOnRefreshListener {
+                query = sharedPref.getString("query", null)
                 query?.let { refresh(it) }
                 lySwipe.isRefreshing = false
             }
-
             svCityName.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     viewModel.search(query!!)
@@ -107,17 +102,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     return false
                 }
             })
-
         }
     }
-
-
     private fun observeEvents() {
         with(binding) {
             viewModel.currentWeatherData.observe(
                 viewLifecycleOwner,
                 Observer { it.let { setData(it) } })
-
             viewModel.forecastWeatherData.observe(viewLifecycleOwner, Observer {
                 it.let {
                     fWeather = it
@@ -125,7 +116,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     setAppTheme(it.current.isDay)
                 }
             })
-
             viewModel.isLoading.observe(viewLifecycleOwner, Observer {
                 if (it) {
                     lyMain.visibility = View.INVISIBLE
@@ -133,11 +123,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 } else {
                     lyShimmer.visibility = View.INVISIBLE
                     lyMain.visibility = View.VISIBLE
-
                 }
-
             })
-
             viewModel.searchData.observe(viewLifecycleOwner, Observer {
                 if (!it.isNullOrEmpty()) {
                     cvSearchResult.visibility = View.VISIBLE
@@ -148,9 +135,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 }
             })
         }
-
     }
-
 
     private fun setAdapter(it: ForecastWeatherResponse) {
         binding.rvHourly.adapter = hourlyWeatherAdapter
