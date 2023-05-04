@@ -29,13 +29,12 @@ class WeatherRepository {
 
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getCurrentWeather(query)
-            withContext(Dispatchers.Main){
                 if (response.isSuccessful){
                     response.body().let {
                         _currentWeatherData.value = it
                         _isLoading.value = false
                     }
-                }
+
             }
         }
     }
@@ -43,12 +42,11 @@ class WeatherRepository {
     suspend fun getForecastWeatherData(query: String) {
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getForecastWeather(query)
-            withContext(Dispatchers.Main){
                 if (response.isSuccessful){
                     response.body().let {
                         _forecastWeatherData.value = it
                         _isLoading.value = false
-                    }
+
                 }
             }
         }
@@ -57,12 +55,11 @@ class WeatherRepository {
     suspend fun getSearchResult(query: String){
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getSearchResult(query)
-            withContext(Dispatchers.Main){
                 if (response.isSuccessful){
                     response.body().let {
                         _searchData.value = it
 
-                    }
+
                 }
             }
         }
@@ -71,12 +68,11 @@ class WeatherRepository {
     suspend fun getSearchDetail(query: String){
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getCurrentWeather(query)
-            withContext(Dispatchers.Main){
                 if (response.isSuccessful){
                     response.body().let {
                         _searchDataDetail.value = it
                     }
-                }
+
             }
         }
     }
