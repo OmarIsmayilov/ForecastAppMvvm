@@ -19,7 +19,7 @@ class WeatherRepository {
     var _searchData = MutableLiveData<SearchResponse>()
     var _searchDataDetail = MutableLiveData<CurrentWeatherResponse>()
     var _isLoading = MutableLiveData<Boolean>()
-    val apiService = ApiUtils.getApi()
+    val apiService = ApiUtils.instance
     var job: Job? = null
 
     init {

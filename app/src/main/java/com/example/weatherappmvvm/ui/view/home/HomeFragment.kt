@@ -109,6 +109,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
             viewModel.currentWeatherData.observe(
                 viewLifecycleOwner,
                 Observer { it.let { setData(it) } })
+
             viewModel.forecastWeatherData.observe(viewLifecycleOwner, Observer {
                 it.let {
                     fWeather = it
@@ -116,6 +117,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     setAppTheme(it.current.isDay)
                 }
             })
+
             viewModel.isLoading.observe(viewLifecycleOwner, Observer {
                 if (it) {
                     lyMain.visibility = View.INVISIBLE
@@ -125,6 +127,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                     lyMain.visibility = View.VISIBLE
                 }
             })
+
             viewModel.searchData.observe(viewLifecycleOwner, Observer {
                 if (!it.isNullOrEmpty()) {
                     cvSearchResult.visibility = View.VISIBLE
